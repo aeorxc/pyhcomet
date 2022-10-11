@@ -2,6 +2,7 @@ import json
 import os
 import requests
 from cachetools.func import ttl_cache
+from urllib.error import HTTPError
 
 # Global variables
 username = os.getenv('HCOMET_API').split(";")[0].split("=")[1]  # username is “AccName___UserID” with 3 underscores
@@ -113,4 +114,4 @@ def generic_api_call(set_url: str, requestType = "GET", payload ={} , response_c
             d = response.json()
             return d
     except:
-        return "Error: no response.  Was the url correct?\n"
+        raise HTTPError(url=set_url, code=response.status_code, msg=response.json()['cause'], hdrs=None, fp=None)
