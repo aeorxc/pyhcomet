@@ -6,7 +6,7 @@ def test_get_refinary_list():
     assert res is not None
 
 def test_get_refinary():
-    res = refineries.get_refinary('NWE',1)
+    res = refineries.get_refinary('NWE',72687)
     assert res is not None
 
 def test_get_refinary_configs():
@@ -14,6 +14,6 @@ def test_get_refinary_configs():
     assert res is not None
 
 def test_get_refinary_config():
-    res = refineries.get_refinary_config('NWE',1)
+    res = refineries.get_refinary_config('NWE',72193)
     assert res is not None
 
