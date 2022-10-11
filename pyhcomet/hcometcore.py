@@ -10,7 +10,7 @@ bearerToken = ""  # tokens are set programmatically after login
 refreshToken = ""
 
 headers = {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
     }
 
 # Sends login request
@@ -18,8 +18,8 @@ def Login(user, passwrd):
     url = "https://hcomet.haverly.com/api/login"
 
     payload = ""
-
-    response = requests.request("GET", url, headers=headers, data=payload, auth=(user, passwrd))
+    proxies = {'http': os.getenv('HTTP_PROXY'), 'https': os.getenv('HTTPS_PROXY')}
+    response = requests.request("GET", url, headers=headers, proxies=proxies, data=payload, auth=(user, passwrd))
 
     if response.status_code == 200:  # success response, set global tokens
         jsonResponse = json.loads(response.text)
