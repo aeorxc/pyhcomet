@@ -1,4 +1,3 @@
-import requests
 import pandas as pd
 from pyhcomet import hcometcore
 import json
@@ -38,5 +37,5 @@ def get_refinary_config(region_id: str, config_id: int):
 def post_refinary_config(region_id: str, config: dict):
     set_url = f"{api_url}/config/{region_id}"
     payload = json.dumps(config)
-    d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201)
+    d = hcometcore.generic_api_call(set_url, payload=payload, requestType="POST", response_code=201)
     return d
