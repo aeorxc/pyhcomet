@@ -105,3 +105,12 @@ def get_header():
         'Authorization': 'Bearer ' + get_token()
     }
     return headers
+
+def generic_api_call(set_url: str, requestType = "GET", payload ={} , response_code =200):
+    try:
+        response = requests.request(requestType, set_url, headers=get_header(), data=payload)
+        if response.status_code == response_code:
+            d = response.json()
+            return d
+    except:
+        return "Error: no response.  Was the url correct?\n"

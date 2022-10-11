@@ -27,21 +27,10 @@ def run_netback_case(case_id:int) -> int:
 
 def get_run_status(nbIndex:int):
     run_status_url = f"{api_url}/status/{nbIndex}"
-    try:
-        response = requests.request("GET", run_status_url, headers=hcometcore.get_header(), data={})
-        if response.status_code == 200:
-            d = response.json()
-            return d
-    except:
-        return "Error: no response.  Was the url correct?\n"
-
+    d = hcometcore.generic_api_call(run_status_url)
+    return d
 
 def get_report(nbIndex:int, rateType:int=0, report_type:str='reportnb') -> list:
     report_url = f"{api_url}/{report_type}/{nbIndex}/{rateType}"
-    try:
-        response = requests.request("GET", report_url, headers=hcometcore.get_header(), data={})
-        if response.status_code == 200:
-            d = response.json()
-            return d
-    except:
-        return "Error: no response.  Was the url correct?\n"
+    d = hcometcore.generic_api_call(report_url)
+    return d
