@@ -13,6 +13,4 @@ def create_report():
 
     return report
 
-qe.qe(create_report())
-
 
