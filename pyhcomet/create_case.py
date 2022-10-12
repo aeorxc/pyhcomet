@@ -5,11 +5,11 @@ import create_refinary_set
 
 
 settings = {'SlateID': create_slate.create_and_post_slate(), 'RegionID': 'NWE',
-            'SimplePriceSetID': None,
+            'SimplePriceSetID': create_price_set.create_and_post_price_set(),
             'SimpleRefineryConfigID': create_refinary_set.create_and_post_ref_config(),
-            'SimpleSeasonCode': 'INT', 'SimpleCutSetID': 0, 'SimpleSpecificationID': 1884, 'Name': 'TestAPI8'} #Post case doesnt seem to like SimplePriceSetID
+            'SimpleSeasonCode': 'INT', 'SimpleCutSetID': 0, 'SimpleSpecificationID': 1884, 'Name': 'TestAPI8'}
 
-casetemplate = {'Selected': False, 'Comment': '', 'SlateOrBlend': 0, 'SlateID': settings['SlateID'],
+casetemplate = {'Selected': True, 'Comment': '', 'SlateOrBlend': 0, 'SlateID': settings['SlateID'],
                 'BlendID': None, 'CutSetID': None, 'ModelType': 0, 'RegionID': settings['RegionID'],
                 'PriceSetType': 0, 'SimplePriceSetID': settings['SimplePriceSetID'], 'SimplePriceSetGroupID': None,
                 'SimpleRefineryConfigID': settings['SimpleRefineryConfigID'],
@@ -28,5 +28,3 @@ def create_and_post_case():
     Name = settings['Name']
     caseid = x.query('Name == @Name')['ID'].iloc[0]
     return caseid
-
-print(create_and_post_case())

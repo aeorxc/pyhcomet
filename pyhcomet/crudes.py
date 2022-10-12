@@ -17,12 +17,6 @@ def get_crude(name:str, assay_format:str = "english assay"):
     res = pd.DataFrame(d['summaryProperties']) #TODO read rest of response
     return res
 
-
-def get_crudes():
-    d = hcometcore.generic_api_call(api_url)
-    res = pd.DataFrame(d)
-    return res
-
 def get_crude_library():
     crude_url = f"{api_url}/crulib/library"
     d = hcometcore.generic_api_call(crude_url)
