@@ -1,7 +1,6 @@
 import logging
 
 import requests
-import pandas as pd
 from pyhcomet import hcometcore
 
 api_url = "https://hcomet.haverly.com/api/basnb"

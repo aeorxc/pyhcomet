@@ -20,5 +20,5 @@ def get_price_set(set_id: int):
 def post_crude_price(price_set, region_id: str):
     set_url = f"{api_url}/{region_id}"
     payload = json.dumps(price_set)
-    d = hcometcore.generic_api_call(set_url, payload=payload, requestType="POST", response_code=201)
+    d = hcometcore.generic_api_call(set_url, payload=payload, requestType="POST", response_code=201, convert='true')
     return d

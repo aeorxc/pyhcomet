@@ -1,8 +1,14 @@
 import requests
 import pandas as pd
 from pyhcomet import hcometcore
+from qe import qe
 
 api_url = "https://hcomet.haverly.com/api/crudes"
+
+def get_crudes():
+    d = hcometcore.generic_api_call(api_url)
+    df = pd.DataFrame.from_dict(d)
+    return df
 
 
 def get_crude(name:str, assay_format:str = "english assay"):
