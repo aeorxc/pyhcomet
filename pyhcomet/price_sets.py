@@ -22,3 +22,8 @@ def post_price_set(price_set, region_id: str):
     payload = json.dumps(price_set)
     d = hcometcore.generic_api_call(set_url, payload=payload, requestType="POST", response_code=201, convert='true')
     return d
+
+def get_price_set_id(region: str, name: str):
+    listofsets = get_price_sets(region)
+    ID= int(listofsets.query('Name == @name')['ID'].iloc[0])
+    return ID

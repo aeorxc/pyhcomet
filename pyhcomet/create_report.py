@@ -1,3 +1,5 @@
+import pandas as pd
+
 import create_case
 import netback
 import time
@@ -10,7 +12,8 @@ def create_report():
         print(netback.get_run_status(nbID))
         time.sleep(5)
     report = netback.get_report(nbID)
-
-    return report
+    products = report.loc['Products'][0]
+    products = pd.DataFrame(products)
+    return products
 
 

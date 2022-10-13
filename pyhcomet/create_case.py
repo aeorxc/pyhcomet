@@ -1,12 +1,14 @@
 import cases
 import create_slate
 import create_price_set
-import create_refinary_set
+import refineries
+import slates
+import price_sets
 
 
-settings = {'SlateID': create_slate.create_and_post_slate(), 'RegionID': 'NWE',
-            'SimplePriceSetID': create_price_set.create_and_post_price_set(),
-            'SimpleRefineryConfigID': create_refinary_set.create_and_post_ref_config(),
+settings = {'SlateID': slates.get_slate_id('Algeria'), 'RegionID': 'NWE',
+            'SimplePriceSetID': price_sets.get_price_set_id('NWE', '1/1/2023'),
+            'SimpleRefineryConfigID': refineries.get_ref_config('NWE', 'NWE Generic'),
             'SimpleSeasonCode': 'INT', 'SimpleCutSetID': 0, 'SimpleSpecificationID': 1884, 'Name': 'TestAPI8'}
 
 casetemplate = {'Selected': True, 'Comment': '', 'SlateOrBlend': 0, 'SlateID': settings['SlateID'],

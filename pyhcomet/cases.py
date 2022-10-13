@@ -22,3 +22,4 @@ def post_case(case: dict):
     payload = json.dumps(case)
     d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201, convert='true')
     return d
+

@@ -19,3 +19,8 @@ def post_slate(slate: dict):
     payload = json.dumps(slate)
     d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201, convert='true')
     return d
+
+def get_slate_id(name: str):
+    listofslates = get_slates()
+    ID= int(listofslates.query('Name == @name')['ID'].iloc[0])
+    return ID

@@ -1,6 +1,7 @@
 import pandas as pd
 from pyhcomet import hcometcore
 import json
+from qe import qe
 
 api_url = "https://hcomet.haverly.com/api/basref"
 
@@ -39,3 +40,8 @@ def post_refinary_config(config: dict, region_id: str):
     payload = json.dumps(config)
     d = hcometcore.generic_api_call(set_url, payload=payload, requestType="POST", response_code=201, convert='true')
     return d
+
+def get_ref_config(region: str, name: str):
+    listofrefsinregions = get_refinary_configs(region)
+    configID= int(listofrefsinregions.query('Name == @name')['ID'].iloc[0])
+    return configID
