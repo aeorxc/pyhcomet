@@ -1,4 +1,3 @@
-import requests
 import pandas as pd
 from pyhcomet import hcometcore
 import json

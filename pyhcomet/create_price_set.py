@@ -1,5 +1,4 @@
 import price_sets
-import create_crude_price_set
 
 settings = {'Name': 'TestAPI3', 'Region':'NWE', 'CrudePriceSetID': "null"}
 

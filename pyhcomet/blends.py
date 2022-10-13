@@ -1,4 +1,3 @@
-import requests
 import pandas as pd
 from pyhcomet import hcometcore
 import json
@@ -19,5 +18,3 @@ def post_blend(blend: dict):
     payload = json.dumps(blend)
     d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201)
     return d
-
-print(get_blend(44999))

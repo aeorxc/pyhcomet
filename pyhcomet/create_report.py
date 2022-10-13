@@ -1,9 +1,7 @@
 import pandas as pd
-
 import create_case
 import netback
 import time
-from qe import qe
 
 def create_report():
     caseID = create_case.create_and_post_case()
@@ -15,5 +13,3 @@ def create_report():
     products = report.loc['Products'][0]
     products = pd.DataFrame(products)
     return products
-
-
