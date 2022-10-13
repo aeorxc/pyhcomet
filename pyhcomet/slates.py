@@ -1,6 +1,7 @@
 import pandas as pd
 from pyhcomet import hcometcore
 import json
+
 api_url = "https://hcomet.haverly.com/api/slates"
 
 def get_slates():
