@@ -6,5 +6,5 @@ def test_get_price_sets():
     assert res is not None
 
 def test_get_price_set():
-    res = price_sets.get_price_set(119910)
+    res = price_sets.get_price_set('NWE',195671)
     assert res is not None

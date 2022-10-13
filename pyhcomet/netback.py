@@ -1,7 +1,6 @@
 import logging
-
-import requests
 import pandas as pd
+import requests
 from pyhcomet import hcometcore
 
 api_url = "https://hcomet.haverly.com/api/basnb"
@@ -33,4 +32,5 @@ def get_run_status(nbIndex:int):
 def get_report(nbIndex:int, rateType:int=0, report_type:str='reportnb') -> list:
     report_url = f"{api_url}/{report_type}/{nbIndex}/{rateType}"
     d = hcometcore.generic_api_call(report_url)
+    d = pd.DataFrame.from_records(d).T
     return d

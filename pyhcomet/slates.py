@@ -6,7 +6,7 @@ api_url = "https://hcomet.haverly.com/api/slates"
 
 def get_slates():
     d = hcometcore.generic_api_call(api_url)
-    df = pd.DataFrame.from_records(d)
+    df = pd.DataFrame.from_dict(d)
     return df
 
 def get_slate(slate_id: int):
@@ -17,5 +17,5 @@ def get_slate(slate_id: int):
 
 def post_slate(slate: dict):
     payload = json.dumps(slate)
-    d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201)
+    d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201, convert='true')
     return d
