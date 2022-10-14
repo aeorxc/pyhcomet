@@ -16,9 +16,14 @@ def get_slate(slate_id: int):
     return df
 
 def post_slate(slate: dict):
+    """
+    Given a Slate template create a new slate
+    :param slate: Dict of format "{"SlateItems": ["AssayCode1", "AssayCode2"], "Name": "slate_name"}"
+    :return:
+    """
     payload = json.dumps(slate)
     d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201, convert='true')
-    return d
+    return d.reason
 
 def get_slate_id(name: str):
     listofslates = get_slates()
