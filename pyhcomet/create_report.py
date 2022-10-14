@@ -2,9 +2,13 @@ import pandas as pd
 import create_case
 import netback
 import time
+from qe import qe
 
-def create_report(assays: list, percent: dict, region: str, productPrices: dict, blendPurchasesPrices: dict, processPurchasesPrices: dict, Units: dict, country: str, name: str, slateorblend: int, type: str):
-    caseID = create_case.create_and_post_case(assays, percent, region, productPrices, blendPurchasesPrices, processPurchasesPrices, Units, country, name, slateorblend, type)
+
+def create_report(assays: list, percent: dict, region: str, productPrices: dict, blendPurchasesPrices: dict,
+                  processPurchasesPrices: dict, Units: dict, name: str, slateorblend: int, type: str):
+    caseID = create_case.create_and_post_case(assays, percent, region, productPrices, blendPurchasesPrices,
+                                              processPurchasesPrices, Units, name, slateorblend, type)
     nbID = netback.run_netback_case(caseID)
     while netback.get_run_status(nbID)[0] != 'complete':
         print(netback.get_run_status(nbID))
@@ -13,6 +17,7 @@ def create_report(assays: list, percent: dict, region: str, productPrices: dict,
     products = report.loc['Products'][0]
     products = pd.DataFrame(products)
     return products
+
 
 productPrices = {'LPG': 650, 'Naphtha': 700, 'Mogas Prem 95': 830, 'Mogas Reg 92': 820, 'Jet-A1': 1060,
                  'Diesel 10ppm S': 1010, 'Diesel 50ppm S': 'null', 'Heating Oil 0.1% S': 980,
@@ -42,12 +47,11 @@ assays = ["Agbami '07", "Agbami (GSC) July '18", "Agbami (CVX) Mar 16 '21"]
 
 region = 'NWE'
 
-country = 'GERMANY'
-
-type = 'ABNynas_Harburg'
+type = 'NWE Generic'
 
 name = 'debug'
 
-slateorblend = 1
+slateorblend = 0
 
-print(create_report(assays, percent, region, productPrices, blendPurchasesPrices, processPurchasesPrices, Units, country, name, slateorblend, type))
+qe.qe(create_report(assays, percent, region, productPrices, blendPurchasesPrices, processPurchasesPrices, Units, name,
+                    slateorblend, type))
