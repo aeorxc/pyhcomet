@@ -1,10 +1,6 @@
 import slates
 import crudes
 
-settings = {'Name': 'APITest2'}
-names = ["Agbami '07", "Agbami (GSC) July '18", "Agbami (CVX) Mar 16 '21"]
-
-
 def get_assay_items(name: str):
     assays = crudes.get_crudes()
     crudecode = str(assays.query('Name == @name')['intCrudeID'].iloc[0])
@@ -37,25 +33,29 @@ def create_list(names: list):
         assays.append(assay.copy())
     return assays
 
-
 def create_template(assays: list, name: str):
     slatetemplate = {"SlateItems": assays, "LimitsAdvDetails": [{"Name": "null", "Selected": "true"}],
                      "LimitsCustomDetails": [], "IsAcctWide": "false", "MaxInBlend": "null", "OptimizeBlend": "false",
                      "SubstituteQty": "null",
                      "Chart": "false", "MinPer": "null", "SubQtyCustomFix": "null", "SubQtyCustomMin": "null",
                      "SubQtyCustomMax": "null",
-                     "LimitsUnit": 0, "LimitsUnitCustom": 0, "SelectedSlateItemsCount": 3, "BlendOptRunCountAdv": 1,
+                     "LimitsUnit": 0, "LimitsUnitCustom": 0, "SelectedSlateItemsCount": len(assays), "BlendOptRunCountAdv": 1,
                      "BlendOptRunCountCustom": "null", "BlendOptRunCountAdvSelected": 1,
                      "BlendOptRunCountCustomSelected": "null",
                      "Name": name}
     return slatetemplate
 
 
-def create_and_post_slate():
-    listOfSlates = create_list(names)
-    template = create_template(listOfSlates, settings['Name'])
-    slates.post_slate(template)
+def create_and_post_slate(assays: list, name: str):
     x = slates.get_slates()
-    Name = settings['Name']
-    slateid = int(x.query('Name == @Name')['ID'].iloc[0])
-    return slateid
+    listOfSlates = create_list(assays)
+    template = create_template(listOfSlates, name)
+    try:
+        slateid = int(x.query('Name == @name')['ID'].iloc[0])
+        slates.put_slate(slateid, template)
+        return slateid
+    except:
+        slates.post_slate(template)
+        x = slates.get_slates()
+        slateid = int(x.query('Name == @name')['ID'].iloc[0])
+        return slateid

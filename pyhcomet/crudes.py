@@ -18,5 +18,4 @@ def get_crude(name:str, assay_format:str = "english assay"):
 def get_crude_library():
     crude_url = f"{api_url}/crulib/library"
     d = hcometcore.generic_api_call(crude_url)
-    res = 1
-    return res
+    return d

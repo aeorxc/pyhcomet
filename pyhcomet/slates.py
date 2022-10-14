@@ -24,3 +24,14 @@ def get_slate_id(name: str):
     listofslates = get_slates()
     ID= int(listofslates.query('Name == @name')['ID'].iloc[0])
     return ID
+
+def put_slate(slate_id: int, slate: dict):
+    set_url = f"{api_url}/{slate_id}"
+    payload = json.dumps(slate)
+    d = hcometcore.generic_api_call(set_url, payload=payload, requestType="PUT", response_code=204, convert='true')
+    return d
+
+def delete_slate(slate_id: int):
+    set_url = f"{api_url}/{slate_id}"
+    d = hcometcore.generic_api_call(set_url, payload={}, requestType="DELETE", response_code=204, convert='true')
+    return d
