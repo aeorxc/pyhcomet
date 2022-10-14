@@ -108,13 +108,14 @@ def get_header():
     return headers
 
 def generic_api_call(set_url: str, requestType = "GET", payload ={} , response_code =200, convert = 'ignore'):
-    try:
-        response = requests.request(requestType, set_url, headers=get_header(), data=payload)
-        if response.status_code == response_code:
-            if convert == 'ignore':
-                d = response.json()
-                return d
-            d = response
+    # todo rename param to expected_response_code
+
+    response = requests.request(requestType, set_url, headers=get_header(), data=payload)
+    if response.status_code == response_code:
+        if convert == 'ignore':
+            d = response.json()
             return d
-    except:
-        raise HTTPError(url=set_url, code=response.status_code, msg=response.json()['cause'], hdrs=None, fp=None)
+        d = response
+        return d
+    else:
+        raise HTTPError(url=set_url, code=response.status_code, msg=response.json()['Message'], hdrs=None, fp=None)
