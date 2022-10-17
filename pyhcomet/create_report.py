@@ -14,9 +14,14 @@ def create_report(assays: list, percent: dict, region: str, productPrices: dict,
         print(netback.get_run_status(nbID))
         time.sleep(5)
     report = netback.get_report(nbID)
-    products = report.loc['Products'][0]
-    products = pd.DataFrame(products)
-    return products
+    x = len(report.columns)
+    res = pd.DataFrame()
+    while x !=0:
+        products = report.loc['Products'][x-1]
+        products = pd.DataFrame(products)
+        res = pd.concat([res, products], axis=1)
+        x = x-1
+    return res
 
 
 productPrices = {'LPG': 650, 'Naphtha': 700, 'Mogas Prem 95': 830, 'Mogas Reg 92': 820, 'Jet-A1': 1060,
@@ -49,7 +54,7 @@ region = 'NWE'
 
 type = 'NWE Generic'
 
-name = 'debug'
+name = 'debug1'
 
 slateorblend = 0
 
