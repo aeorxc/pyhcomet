@@ -20,6 +20,13 @@ def get_case(case_id: int):
     return df
 
 
+def get_case_by_name(case_name: str):
+    cases = get_cases()
+    cases = cases[cases['Name'] == case_name]
+    if len(cases) > 0:
+        return cases
+
+
 def post_case(case: dict):
     payload = json.dumps(case)
     d = hcometcore.generic_api_call(api_url, payload=payload, requestType="POST", response_code=201, convert='true')
