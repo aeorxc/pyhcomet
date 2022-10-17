@@ -6,7 +6,14 @@ from pyhcomet import hcometcore
 
 api_url = "https://hcomet.haverly.com/api/baspss"
 
+
 product_defaults = {
+            'Selected': 'true',
+            'RateUnit': 'Vol%',
+            'Type': 0,
+        }
+
+product_template_defaults = {
     'LPG': {
         'Code': 'LPG',
         'Description': 'LPG',
@@ -76,17 +83,25 @@ product_defaults = {
 }
 
 
-def build_price_set_template(prices: list, name: str) -> dict:
+def price_set_template(prices: list, name: str) -> dict:
+    """
+    Given a list of dicts (eg below) construct a template to send to Haverly
+    [
+        {
+            "Code": "LPG",
+            "Price": 650,
+            "PriceUnit": '$/MT'
+        },
+    ]
+    :param prices:
+    :param name:
+    :return:
+    """
     t = {"Name": name, "Products": []}
     count = 1
     for price in prices:
-        product = {
-            'Selected': 'true',
-            'RateUnit': 'Vol%',
-            'Type': 0,
-        }
-        product = {**price, **product} # add in prices
-        product = {**product_defaults[price['Code']], **product} # add in other defaults
+        product = {**price, **product_defaults} # add in prices
+        product = {**product_template_defaults[price['Code']], **product} # add in other defaults
         product["Number"] = count
         t["Products"].append(product)
         count += 1

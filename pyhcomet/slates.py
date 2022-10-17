@@ -7,6 +7,30 @@ from pyhcomet import hcometcore
 api_url = "https://hcomet.haverly.com/api/slates"
 
 
+def slate_template(crudes: list, name: str):
+    """
+    Given a list of dicts (eg below) construct a template to send to Haverly
+    crudes = [
+        {'Code': 'AGBMI472', 'Library': 'CHEVRON_EQUITY',  },
+        {'Code': 'AGBMI480', 'Library': 'CHEVRON_EQUITY', }
+    ]
+    :param crudes:
+    :param name:
+    :return:
+    """
+
+    template = {
+        "SlateItems": [],
+        "Name": name
+    }
+    for crude in crudes:
+        t = {'Selected': 'true'}
+        t = {**crude, **t}
+        template["SlateItems"].append(t)
+
+    return template
+
+
 def get_slates():
     d = hcometcore.generic_api_call(api_url)
     df = pd.DataFrame.from_dict(d)
@@ -25,6 +49,7 @@ def get_slate_by_name(slate_name: int):
     slates = slates[slates['Name'] == slate_name]
     if len(slates) > 0:
         return slates
+
 
 def post_slate(slate: dict):
     """

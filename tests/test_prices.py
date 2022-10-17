@@ -21,7 +21,8 @@ def test_build_price_set_template():
         "Unit": '$/MT'
     },
     ]
-    res = price_sets.build_price_set_template(prices, "test_price_set")
+    res = price_sets.price_set_template(prices, "test_price_set")
+    assert res is not None
 
 
 def get_price_set_template():
@@ -40,35 +41,8 @@ def get_price_set_template():
         }
     ]
 
-    template = price_sets.build_price_set_template(prices, name=price_set)
+    template = price_sets.price_set_template(prices, name=price_set)
 
-    # template = {
-    #     "Products": [
-    #         {
-    #             'Code': 'LPG',
-    #             'Description': 'LPG',
-    #             'Selected': 'true',
-    #             'Price': 650,
-    #             'PriceUnit': '$/MT',
-    #             'RateUnit': 'Vol%',
-    #             'Number': 1,
-    #             'Type': 0,
-    #             'LPCode': 'LPG',
-    #         },
-    #         {
-    #             'Code': 'LNA',
-    #             'Description': 'Naphtha',
-    #             'Selected': 'true',
-    #             'Price': 700,
-    #             'PriceUnit': '$/MT',
-    #             'RateUnit': 'Vol%',
-    #             'Number': 2,
-    #             'Type': 0,
-    #             'LPCode': 'LNA',
-    #         },
-    #     ],
-    #     "Name": price_set,
-    # }
     return template
 
 

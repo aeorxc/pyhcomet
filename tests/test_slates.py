@@ -14,16 +14,22 @@ def test_get_slates():
         assert res is not None
 
 
+def test_build_slate_template():
+    crudes = [
+        {'Code': 'AGBMI472', 'Library': 'CHEVRON_EQUITY', },
+        {'Code': 'AGBMI480', 'Library': 'CHEVRON_EQUITY', },
+    ]
+    res = slates.slate_template(crudes, "test_slate")
+    assert res is not None
+
+
 def get_slate_template():
     slate_name = f"test_slate_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
     assays = [
-        {'Code': 'AGBMI472', 'Library': 'CHEVRON_EQUITY', 'Selected': 'true',},
-        {'Code': 'AGBMI480', 'Library': 'CHEVRON_EQUITY', 'Selected': 'true',}
+        {'Code': 'AGBMI472', 'Library': 'CHEVRON_EQUITY',},
+        {'Code': 'AGBMI480', 'Library': 'CHEVRON_EQUITY', }
     ]
-    template = {
-        "SlateItems": assays,
-        "Name": slate_name
-    }
+    template = slates.slate_template(assays, name=slate_name)
     return template
 
 

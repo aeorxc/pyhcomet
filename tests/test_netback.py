@@ -1,6 +1,4 @@
-import test_prices
-import test_slates
-import test_cases
+from tests import test_prices, test_slates, test_cases
 from pyhcomet import netback, cases, price_sets, slates
 
 
