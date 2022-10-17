@@ -20,6 +20,12 @@ def get_slate(slate_id: int):
     return df
 
 
+def get_slate_by_name(slate_name: int):
+    slates = get_slates()
+    slates = slates[slates['Name'] == slate_name]
+    if len(slates) > 0:
+        return slates
+
 def post_slate(slate: dict):
     """
     Given a Slate template create a new slate
