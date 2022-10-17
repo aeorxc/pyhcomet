@@ -12,7 +12,7 @@ product_defaults = {
         'Description': 'LPG',
         'LPCode': 'LPG',
     },
-    'Naphtha': {
+    'LNA': {
         'Code': 'LNA',
         'Description': 'Naphtha',
         'LPCode': 'LNA',
@@ -76,10 +76,20 @@ product_defaults = {
 }
 
 
-def build_price_set_template(prices=list) -> dict:
-    t = {}
+def build_price_set_template(prices: list, name: str) -> dict:
+    t = {"Name": name, "Products": []}
+    count = 1
     for price in prices:
-        t = {**t, **t}
+        product = {
+            'Selected': 'true',
+            'RateUnit': 'Vol%',
+            'Type': 0,
+        }
+        product = {**price, **product} # add in prices
+        product = {**product_defaults[price['Code']], **product} # add in other defaults
+        product["Number"] = count
+        t["Products"].append(product)
+        count += 1
 
     return t
 
