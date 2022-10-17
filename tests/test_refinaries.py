@@ -14,8 +14,9 @@ def test_get_refinary():
 def test_get_refinary_configs():
     res = refineries.get_refinary_configs('NWE')
     assert res is not None
+    if len(res) > 0:
+        id = res['ID'].iloc[0]
+        res = refineries.get_refinary_config("NWE", id)
+        assert res is not None
 
 
-def test_get_refinary_config():
-    res = refineries.get_refinary_config('NWE', 72193)
-    assert res is not None

@@ -1,16 +1,17 @@
-import pandas as pd
 import time
+
+import pandas as pd
+
 from pyhcomet import price_sets
 
 
 def test_get_price_sets():
     res = price_sets.get_price_sets('NWE')
     assert res is not None
-
-
-def test_get_price_set():
-    res = price_sets.get_price_set('NWE', 195671)
-    assert res is not None
+    if len(res) > 0:
+        id = res['ID'].iloc[0]
+        res = price_sets.get_price_set("NWE", id)
+        assert res is not None
 
 
 def test_post_price_set():
@@ -40,7 +41,7 @@ def test_post_price_set():
                 'Type': 0,
                 'LPCode': 'LNA',
             },
-            ],
+        ],
         "Name": price_set,
     }
     res = price_sets.post_price_set(template, region_id="NWE")
