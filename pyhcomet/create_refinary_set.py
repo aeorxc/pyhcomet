@@ -92,15 +92,6 @@ refinarytemplate = {
                     "IsSelected": "true", "SelectedRefineriesCount": 1,
     "Name": settings['Name']}]}
 
-
-def create_and_post_ref_config():
-    refineries.post_refinary_config(refinarytemplate, settings['Region'])
-    x = refineries.get_refinary_configs('NWE')
-    Name = settings['Name']
-    refid = int(x.query('Name == @Name')['ID'].iloc[0])
-    return refid
-
-
 def create_and_post_ref_config():
     x = refineries.get_refinary_configs(settings['Region'])
     Name = settings['Name']

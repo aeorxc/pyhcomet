@@ -48,7 +48,7 @@ assays = ["Agbami '07", "Agbami (GSC) July '18", "Agbami (CVX) Mar 16 '21"]
 
 region = 'NWE'
 
-type = 'NWE Generic'
+type = 'ABNynas_Harburg'
 
 name = 'debug1'
 
