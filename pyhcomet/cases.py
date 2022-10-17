@@ -7,6 +7,33 @@ from pyhcomet import hcometcore
 api_url = "https://hcomet.haverly.com/api/cases"
 
 
+def case_template(SimplePriceSetID: int,
+                  RegionID: str,
+                  Name: str,
+                  SlateID: int = None,
+                  BlendID: int = None,
+                  SimpleRefineryConfigID: int = 72193 # NWE Generic
+    ):
+    template = {
+        'Selected': True,
+        'SlateOrBlend': '',
+        'SlateID': "" if SlateID is None else int(SlateID),
+        'BlendID': "" if BlendID is None else int(BlendID),
+        'CutSetID': None,
+        'ModelType': 0,
+        'RegionID': RegionID,
+        'PriceSetType': 0,
+        'SimplePriceSetID': int(SimplePriceSetID),
+        'SimplePriceSetGroupID': None,
+        'SimpleRefineryConfigID': SimpleRefineryConfigID,
+        'SimpleSpecificationID': 1884,
+        'SimpleCutSetID': 0,
+        'SimpleSeasonCode': 'INT',
+        'Name': Name
+    }
+    return template
+
+
 def get_cases():
     d = hcometcore.generic_api_call(api_url)
     df = pd.DataFrame.from_dict(d)

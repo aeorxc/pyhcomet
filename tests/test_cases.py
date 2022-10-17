@@ -9,35 +9,15 @@ from pyhcomet import cases, price_sets, slates
 def test_get_cases():
     res = cases.get_cases()
     assert res is not None
-
-
-def test_get_case():
-    res = cases.get_case(18644)
-    assert res is not None
+    if len(res) > 0:
+        id = res['ID'].iloc[0]
+        res = cases.get_case(id)
+        assert res is not None
 
 
 def get_case_template(price_set_id: int, slate_id: int, region: str):
-    price_set_id = int(price_set_id) # convert int64 -> int
-    slate_id = int(slate_id)
     case_name = f"test_case_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
-    template = {
-        'Selected': True,
-        # 'Comment': '',
-        'SlateOrBlend': '',
-        'SlateID': slate_id,
-        'BlendID': "",
-        'CutSetID': None,
-        'ModelType': 0,
-        'RegionID': region,
-        'PriceSetType': 0,
-        'SimplePriceSetID': price_set_id,
-        'SimplePriceSetGroupID': None,
-        'SimpleRefineryConfigID': 72193,
-        'SimpleSpecificationID': 1884,
-        'SimpleCutSetID': 0,
-        'SimpleSeasonCode': 'INT',
-        'Name': case_name
-    }
+    template = cases.case_template(SimplePriceSetID=price_set_id, SlateID=slate_id, RegionID=region, Name=case_name)
     return template
 
 
