@@ -3,6 +3,7 @@ import json
 import pandas as pd
 
 from pyhcomet import hcometcore
+from qe import qe
 
 api_url = "https://hcomet.haverly.com/api/basref"
 
