@@ -1,35 +1,15 @@
 import blends
 import crudes
 
-settings = {'Name': 'TestAPI'}
-names = ["Agbami '07", "Agbami (GSC) July '18", "Agbami (CVX) Mar 16 '21"]
-percent = {"Agbami '07": 33, "Agbami (GSC) July '18": 33, "Agbami (CVX) Mar 16 '21": 34}
-
 def get_assay_items(name: str):
     assays = crudes.get_crudes()
     crudecode = str(assays.query('Name == @name')['intCrudeID'].iloc[0])
     libary = str(assays.query('Name == @name')['Library'].iloc[0])
-    gradeID = str(assays.query('Name == @name')['PTI_CIMSGradeID'].iloc[0])
-    filepath = "D:~Haverly~HCOMET~AssayLibs~" + libary + "~" + crudecode + ".CRU"
-    items = {'crudeCode': crudecode, 'library': libary, 'gradeID': gradeID, 'filepath': filepath, 'name': name}
+    items = {'crudeCode': crudecode, 'library': libary, 'name': name}
     return items
 
 def create_dict(items: dict, percent: dict):
-    assay = {"CustomPrices": [], "FixedCutFilterValues": ["null", "null", "null", "null", "null", "null"],
-     "FixedCutFilterValuesCalc": ["false", "false", "false", "false", "false", "false"],
-     "DynamicCutFilterValues": ["null", "null", "null", "null", "null", "null"], "WCProperties": [], "Percent": percent[items['name']],
-     "FixPer": "Float", "Selected": "false", "SelectedToAdd": "false", "ID": "null", "Region": "null",
-     "Price": "null", "Freight": "null", "CRUFilePath": items['filepath'],
-     "CrudeType": "null", "SulfurType": "null", "State": "null", "Date": "null", "Quality": "null", "PTICrdId": "null",
-     "intCrudeID": "null", "Title1": "null", "Title2": "null", "Owner": "null", "ShareOwned": "null",
-     "SampleID": "null", "Reference": "null", "Production": "null", "SmoothDataConf": "null", "Laboratory": "null",
-     "LabSourceRef": "null", "LoadPort": "null", "LPCode": "null", "UserDefRegion": "null", "PTI_CIMSUrl": "null",
-     "Comments": "null", "CutValue": "null", "IsCutValueCalc": "false", "BlendID": "null", "Sites": "null",
-     "CustomCode": "null", "PropVal01": "null", "PropVal02": "null", "PropVal03": "null", "PropVal04": "null",
-     "PropVal05": "null", "PropVal06": "null", "PropVal07": "null", "PropVal08": "null", "Code": items['crudeCode'],
-     "Name": items['name'], "Library": items['library'], "Year": "null", "Country": "null",
-     "PTI_CIMSGradeID": items['gradeID'], "ChemicalClass": "null", "CRUFileSource": "null", "N2": "null", "TAN": "null",
-     "POUR": "null", "API": "null", "API_Calc": "null", "SUL": "null"}
+    assay = {"Percent": percent[items['name']], "Code": items['crudeCode'], "Library": items['library'], "Selected": "true"}
     return assay
 
 def create_list(names: list, percent: dict):
@@ -40,8 +20,7 @@ def create_list(names: list, percent: dict):
     return assays
 
 def create_template(assays: list, name: str):
-    blendtemplate = {"BlendComponentCrudes": assays, "WCProperties": [], "WCPropertiesCustom": [], "Selected": "false",
-            "IsAcctWide": "false", "PctType": 0, "Name": name}
+    blendtemplate = {"BlendComponentCrudes": assays, "Name": name}
     return blendtemplate
 
 

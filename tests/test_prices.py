@@ -55,3 +55,4 @@ def test_post_price_set():
     testset = price_sets.get_price_set_by_name("NWE", set_name=template["Name"])
     res = price_sets.delete_set(region_id="NWE", set_id=testset['ID'].iloc[0])
     assert res == 'No Content'
+
