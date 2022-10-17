@@ -16,7 +16,7 @@ def test_get_price_sets():
 
 def test_build_price_set_template():
     prices = [
-        {"Code": "LPG", "Price": 650, "Unit": "$/MT"},
+        {"Description": "LPG", "Price": 650, "Unit": "$/MT"},
     ]
     res = price_sets.price_set_template(prices, "test_price_set")
     assert res is not None
