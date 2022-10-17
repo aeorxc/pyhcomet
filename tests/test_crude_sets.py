@@ -2,7 +2,7 @@ from pyhcomet import crude_price_sets
 
 
 def test_get_price_sets():
-    res = crude_price_sets.get_crude_price_sets('NWE')
+    res = crude_price_sets.get_crude_price_sets("NWE")
     assert res is not None
 
 

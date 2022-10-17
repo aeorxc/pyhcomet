@@ -5,22 +5,26 @@ from cachetools.func import ttl_cache
 from urllib.error import HTTPError
 
 # Global variables
-username = os.getenv('HCOMET_API').split(";")[0].split("=")[1]  # username is “AccName___UserID” with 3 underscores
-password = os.getenv('HCOMET_API').split(";")[1].split("=")[1]  # enter the user's password here
+username = (
+    os.getenv("HCOMET_API").split(";")[0].split("=")[1]
+)  # username is “AccName___UserID” with 3 underscores
+password = (
+    os.getenv("HCOMET_API").split(";")[1].split("=")[1]
+)  # enter the user's password here
 bearerToken = ""  # tokens are set programmatically after login
 refreshToken = ""
 
-headers = {
-        'Content-Type': 'application/json'
-    }
+headers = {"Content-Type": "application/json"}
 
 # Sends login request
 def Login(user, passwrd):
     url = "https://hcomet.haverly.com/api/login"
 
     payload = ""
-    proxies = {'http': os.getenv('HTTP_PROXY'), 'https': os.getenv('HTTPS_PROXY')}
-    response = requests.request("GET", url, headers=headers, proxies=proxies, data=payload, auth=(user, passwrd))
+    proxies = {"http": os.getenv("HTTP_PROXY"), "https": os.getenv("HTTPS_PROXY")}
+    response = requests.request(
+        "GET", url, headers=headers, proxies=proxies, data=payload, auth=(user, passwrd)
+    )
 
     if response.status_code == 200:  # success response, set global tokens
         jsonResponse = json.loads(response.text)
@@ -42,7 +46,9 @@ def Override(user, passwrd):
 
     payload = ""
 
-    response = requests.request("GET", url, headers=headers, data=payload, auth=(user, passwrd))
+    response = requests.request(
+        "GET", url, headers=headers, data=payload, auth=(user, passwrd)
+    )
 
     if response.status_code == 200:  # success response, set global tokens
         jsonResponse = json.loads(response.text)
@@ -63,8 +69,8 @@ def Refresh():
 
     payload = json.dumps(refreshToken)
     headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + bearerToken
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + bearerToken,
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
@@ -102,20 +108,31 @@ def get_token():
 
 def get_header():
     headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + get_token()
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + get_token(),
     }
     return headers
 
-def generic_api_call(set_url: str, requestType = "GET", payload ={} , response_code =200, convert = 'ignore'):
+
+def generic_api_call(
+    set_url: str, requestType="GET", payload={}, response_code=200, convert="ignore"
+):
     # todo rename param to expected_response_code
 
-    response = requests.request(requestType, set_url, headers=get_header(), data=payload)
+    response = requests.request(
+        requestType, set_url, headers=get_header(), data=payload
+    )
     if response.status_code == response_code:
-        if convert == 'ignore':
+        if convert == "ignore":
             d = response.json()
             return d
         d = response
         return d
     else:
-        raise HTTPError(url=set_url, code=response.status_code, msg=response.json()['Message'], hdrs=None, fp=None)
+        raise HTTPError(
+            url=set_url,
+            code=response.status_code,
+            msg=response.json()["Message"],
+            hdrs=None,
+            fp=None,
+        )

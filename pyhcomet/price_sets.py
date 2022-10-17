@@ -6,80 +6,62 @@ from pyhcomet import hcometcore
 
 api_url = "https://hcomet.haverly.com/api/baspss"
 
-
 product_defaults = {
-            'Selected': 'true',
-            'RateUnit': 'Vol%',
-            'Type': 0,
-        }
+    "Selected": "true",
+    "RateUnit": "Vol%",
+    "Type": 0,
+}
 
 product_template_defaults = {
-    'LPG': {
-        'Code': 'LPG',
-        'Description': 'LPG',
-        'LPCode': 'LPG',
+    "LPG": {"Code": "LPG", "Description": "LPG", "LPCode": "LPG"},
+    "Naphtha": {"Code": "LNA", "Description": "Naphtha", "LPCode": "LNA"},
+    "Mogas Prem 95": {
+        "Code": "MOGHQ",
+        "Description": "Mogas Prem 95",
+        "LPCode": "MGH",
     },
-    'LNA': {
-        'Code': 'LNA',
-        'Description': 'Naphtha',
-        'LPCode': 'LNA',
+    "Mogas Reg 92": {
+        "Code": "MOGLQ",
+        "Description": "Mogas Reg 92",
+        "LPCode": "MGL",
     },
-    'MOGHQ': {
-        'Code': 'MOGHQ',
-        'Description': 'Mogas Prem 95',
-        'LPCode': 'MGH',
+    "Jet-A1": {"Code": "JET", "Description": "Jet-A1", "LPCode": "JET"},
+    "Diesel 10ppm S": {
+        "Code": "DIEHQ",
+        "Description": "Diesel 10ppm S",
+        "LPCode": "DSH",
     },
-    'MOGLQ': {
-        'Code': 'MOGLQ',
-        'Description': 'Mogas Reg 92',
-        'LPCode': 'MGL',
+    "Diesel 50ppm S": {
+        "Code": "DIELQ",
+        "Description": "Diesel 50ppm S",
+        "LPCode": "DSL",
     },
-    'Jet': {
-        'Code': 'JET',
-        'Description': 'Jet-A1',
-        'LPCode': 'JET',
+    "Heating Oil 0.1% S": {
+        "Code": "HOLHQ",
+        "Description": "Heating Oil 0.1% S",
+        "LPCode": "HOH",
     },
-    'DIEHQ': {
-        'Code': 'DIEHQ',
-        'Description': 'Diesel 10ppm S',
-        'LPCode': 'DSH',
+    "Heating Oil 0.2% S": {
+        "Code": "HOLLQ",
+        "Description": "Heating Oil 0.2% S",
+        "LPCode": "HOL",
     },
-    'DIELQ': {
-        'Code': 'DIELQ',
-        'Description': 'Diesel 50ppm S',
-        'LPCode': 'DSL',
+    "Fuel Oil 0.5% S": {
+        "Code": "FOULS",
+        "Description": "Fuel Oil 0.5% S",
+        "LPCode": "FUS",
     },
-    'HOLHQ': {
-        'Code': 'HOLHQ',
-        'Description': 'Heating Oil 0.1% S',
-        'LPCode': 'HOH',
+    "Fuel Oil 1% S": {
+        "Code": "FOLHQ",
+        "Description": "Fuel Oil 1% S",
+        "LPCode": "FOH",
     },
-    'HOLLQ': {
-        'Code': 'HOLLQ',
-        'Description': 'Heating Oil 0.2% S',
-        'LPCode': 'HOL',
+    "Fuel Oil 3.5% S": {
+        "Code": "FOLLQ",
+        "Description": "Fuel Oil 3.5% S",
+        "LPCode": "FOL",
     },
-    'FOULS': {
-        'Code': 'FOULS',
-        'Description': 'Fuel Oil 0.5% S',
-        'LPCode': 'FUS',
-    },
-    'FOLHQ': {
-        'Code': 'FOLHQ',
-        'Description': 'Fuel Oil 1% S',
-        'LPCode': 'FOH',
-    },
-    'FOLLQ': {
-        'Code': 'FOLLQ',
-        'Description': 'Fuel Oil 3.5% S',
-        'LPCode': 'FOL',
-    },
-    'ASP': {
-
-        'Code': 'ASP',
-        'Description': 'Bitumen',
-        'LPCode': 'ASP',
-    },
+    "Bitumen": {"Code": "ASP", "Description": "Bitumen", "LPCode": "ASP"},
 }
 
 
@@ -88,7 +70,7 @@ def price_set_template(prices: list, name: str) -> dict:
     Given a list of dicts (eg below) construct a template to send to Haverly
     [
         {
-            "Code": "LPG",
+            "Description": "LPG",
             "Price": 650,
             "PriceUnit": '$/MT'
         },
@@ -100,8 +82,11 @@ def price_set_template(prices: list, name: str) -> dict:
     t = {"Name": name, "Products": []}
     count = 1
     for price in prices:
-        product = {**price, **product_defaults} # add in prices
-        product = {**product_template_defaults[price['Code']], **product} # add in other defaults
+        product = {**price, **product_defaults}  # add in prices
+        product = {
+            **product_template_defaults[price["Description"]],
+            **product,
+        }  # add in other defaults
         product["Number"] = count
         t["Products"].append(product)
         count += 1
@@ -125,7 +110,7 @@ def get_price_set(region_id: str, set_id: int):
 
 def get_price_set_by_name(region_id: str, set_name: str):
     sets = get_price_sets(region_id)
-    sets = sets[sets['Name'] == set_name]
+    sets = sets[sets["Name"] == set_name]
     if len(sets) > 0:
         return sets
 
@@ -133,24 +118,30 @@ def get_price_set_by_name(region_id: str, set_name: str):
 def post_price_set(price_set: dict, region_id: str):
     set_url = f"{api_url}/{region_id}"
     payload = json.dumps(price_set)
-    d = hcometcore.generic_api_call(set_url, payload=payload, requestType="POST", response_code=201, convert='true')
+    d = hcometcore.generic_api_call(
+        set_url, payload=payload, requestType="POST", response_code=201, convert="true"
+    )
     return d.reason
 
 
 def get_price_set_id(region: str, name: str):
     listofsets = get_price_sets(region)
-    ID = int(listofsets.query('Name == @name')['ID'].iloc[0])
+    ID = int(listofsets.query("Name == @name")["ID"].iloc[0])
     return ID
 
 
 def put_price_set(region_id: str, price_set_id: int, price_set: dict):
     set_url = f"{api_url}/{region_id}/{price_set_id}"
     payload = json.dumps(price_set)
-    d = hcometcore.generic_api_call(set_url, payload=payload, requestType="PUT", response_code=204, convert='true')
+    d = hcometcore.generic_api_call(
+        set_url, payload=payload, requestType="PUT", response_code=204, convert="true"
+    )
     return d
 
 
 def delete_set(region_id: str, set_id: int):
     set_url = f"{api_url}/{region_id}/{set_id}"
-    d = hcometcore.generic_api_call(set_url, payload={}, requestType="DELETE", response_code=204, convert='true')
+    d = hcometcore.generic_api_call(
+        set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
+    )
     return d.reason
