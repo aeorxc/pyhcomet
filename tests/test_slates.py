@@ -1,5 +1,7 @@
-import pandas as pd
 import time
+
+import pandas as pd
+
 from pyhcomet import slates
 
 
@@ -15,7 +17,10 @@ def test_get_slate():
 
 def test_post_slate():
     slate_name = f"test_slate_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
-    assays = ["Agbami '07", "Agbami (GSC) July '18"]
+    assays = [
+        {'Code': 'AGBMI472', 'Library': 'CHEVRON_EQUITY', },
+        {'Code': 'AGBMI480', 'Library': 'CHEVRON_EQUITY', }
+    ]
     template = {
         "SlateItems": assays,
         "Name": slate_name
