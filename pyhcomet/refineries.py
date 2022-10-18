@@ -3,7 +3,6 @@ import json
 import pandas as pd
 
 from pyhcomet import hcometcore
-from qe import qe
 
 api_url = "https://hcomet.haverly.com/api/basref"
 
@@ -80,6 +79,7 @@ def get_refinary_id_on_country(region_id: str, country: str, name: str):
     refid = int(x.query("Name == @name")["ID"].iloc[0])
     return refid
 
+
 def ref_template(units: list, name: str):
     """
     Given a list of dicts (eg below) construct a template to send to Haverly
@@ -93,9 +93,9 @@ def ref_template(units: list, name: str):
     """
 
     template = {"Units": [], "ID": 1,
-                        "Name": name, "Selected": "true",
-                        "IsSelected": "true", "SelectedRefineriesCount": 1,
-                        "Name": name}
+                "Name": name, "Selected": "true",
+                "IsSelected": "true", "SelectedRefineriesCount": 1,
+                "Name": name}
     for unit in units:
         t = {"Selected": "true", "Enabled": "true", "Rate": "null", "MinRate": "null"}
         t = {**unit, **t}
