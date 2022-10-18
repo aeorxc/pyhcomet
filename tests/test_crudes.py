@@ -1,5 +1,6 @@
+import pytest
+
 from pyhcomet import crudes
-from tests.conftest import skip_in_ci
 
 
 def test_get_crude():
@@ -12,7 +13,7 @@ def test_get_crudes():
     assert res is not None
 
 
-@skip_in_ci
+@pytest.mark.skip(reason="Not authorised")
 def test_get_crude_library():
     res = crudes.get_crude_library()
     assert res is not None

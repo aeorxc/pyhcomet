@@ -14,12 +14,6 @@ def test_get_slates():
         assert res is not None
 
 
-def test_build_slate_template():
-
-    res = slates.slate_template(crudes, "test_slate")
-    assert res is not None
-
-
 def get_slate_template():
     slate_name = (
 
