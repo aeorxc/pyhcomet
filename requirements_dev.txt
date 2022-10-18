@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest
+coverage
+pylint
+black
+mypy
