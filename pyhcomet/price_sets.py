@@ -145,3 +145,45 @@ def delete_set(region_id: str, set_id: int):
         set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
     )
     return d.reason
+
+
+def submit_price_set(prices: list, region_id: str, name: str):
+    """
+    Given a list of dicts (eg below) construct a template and send to Haverly.
+    If a set exists with supplied name, overwrite
+    [
+        {
+            "Description": "LPG",
+            "Price": 650,
+            "PriceUnit": '$/MT'
+        },
+    ]
+    :param prices:
+    :param region_id:
+    :param name:
+    :return:
+    """
+    template = price_set_template(prices=prices, name=name)
+    set_id = None
+    try:
+        post_price_set(price_set=template, region_id=region_id)
+    except Exception as ex:
+        if 'Basic price set name conflict' in ex.reason:
+            set_id = get_price_set_by_name(region_id=region_id, set_name=name)["ID"].iloc[0]
+            put_price_set(region_id=region_id, price_set=template,
+                              price_set_id=set_id)
+        else:
+            raise
+
+    if not set_id:
+        set_id = get_price_set_by_name(region_id=region_id, set_name=name)["ID"].iloc[0]
+
+    return set_id
+
+
+if __name__ == "__main__":
+    prices = [
+        {"Description": "LPG", "Price": 650, "PriceUnit": "$/MT"},
+        {"Description": "Naphtha", "Price": 750, "PriceUnit": "$/MT"},
+    ]
+    submit_price_set(prices=prices, region_id="NWE", name="ga_test")

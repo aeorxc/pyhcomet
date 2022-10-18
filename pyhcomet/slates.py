@@ -82,3 +82,35 @@ def delete_slate(slate_id: int):
         set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
     )
     return d.reason
+
+
+def submit_slate(crudes: list, name: str):
+    template = slate_template(crudes=crudes, name=name)
+    set_id = None
+    try:
+        post_slate(slate=template)
+    except Exception as ex:
+        if 'Slate name conflict' in ex.reason:
+            set_id = get_slate_by_name(slate_name=name)["ID"].iloc[0]
+            put_slate(slate=template, slate_id=set_id)
+        else:
+            raise
+
+    if not set_id:
+        set_id = get_slate_by_name(slate_name=name)["ID"].iloc[0]
+
+    return set_id
+
+
+if __name__ == "__main__":
+    crudes = [
+        {
+            "Code": "AGBMI472",
+            "Library": "CHEVRON_EQUITY",
+        },
+        {
+            "Code": "AGBMI480",
+            "Library": "CHEVRON_EQUITY",
+        },
+    ]
+    submit_slate(crudes=crudes, name="ga_test")

@@ -15,23 +15,14 @@ def test_get_slates():
 
 
 def test_build_slate_template():
-    crudes = [
-        {
-            "Code": "AGBMI472",
-            "Library": "CHEVRON_EQUITY",
-        },
-        {
-            "Code": "AGBMI480",
-            "Library": "CHEVRON_EQUITY",
-        },
-    ]
+
     res = slates.slate_template(crudes, "test_slate")
     assert res is not None
 
 
 def get_slate_template():
     slate_name = (
-        f"test_slate_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
+
     )
     assays = [
         {
@@ -47,11 +38,21 @@ def get_slate_template():
     return template
 
 
-def test_post_slate():
-    template = get_slate_template()
-    res = slates.post_slate(template)
-    assert res == "Created"
+def test_submit_slate():
+    crudes = [
+        {
+            "Code": "AGBMI472",
+            "Library": "CHEVRON_EQUITY",
+        },
+        {
+            "Code": "AGBMI480",
+            "Library": "CHEVRON_EQUITY",
+        },
+    ]
+    name = f"test_slate_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
+
+    set_id = slates.submit_slate(crudes=crudes, name=name)
+    assert set_id is not None
     time.sleep(1)
-    testslate = slates.get_slate_by_name(template["Name"])
-    res = slates.delete_slate(testslate["ID"].iloc[0])
+    res = slates.delete_slate(set_id)
     assert res == "No Content"

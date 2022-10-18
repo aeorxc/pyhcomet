@@ -22,26 +22,14 @@ def test_build_price_set_template():
     assert res is not None
 
 
-def get_price_set_template():
-    price_set = (
-        f"test_price_set_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
-    )
-
+def test_submit_price_set():
     prices = [
         {"Description": "LPG", "Price": 650, "PriceUnit": "$/MT"},
         {"Description": "Naphtha", "Price": 750, "PriceUnit": "$/MT"},
     ]
-
-    template = price_sets.price_set_template(prices, name=price_set)
-
-    return template
-
-
-def test_post_price_set():
-    template = get_price_set_template()
-    res = price_sets.post_price_set(template, region_id="NWE")
-    assert res == "Created"
+    name = f"test_price_set_{pd.to_datetime('now', utc=True).strftime('%y%m%d%I%M%S')}"
+    set_id = price_sets.submit_price_set(prices=prices, region_id="NWE", name=name)
+    assert set_id is not None
     time.sleep(1)
-    testset = price_sets.get_price_set_by_name("NWE", set_name=template["Name"])
-    res = price_sets.delete_set(region_id="NWE", set_id=testset["ID"].iloc[0])
+    res = price_sets.delete_set(region_id="NWE", set_id=set_id)
     assert res == "No Content"
