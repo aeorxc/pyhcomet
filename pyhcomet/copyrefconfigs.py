@@ -32,10 +32,15 @@ def create_configs():
                 try:
                     y = refineries.get_refinary_configs(region)
                     configid = int(y.query('Name == @name')['ID'].iloc[0])
-                    refineries.put_refinary_config(reftemp, region, configid)
                     print(configid)
+                    continue
                 except:
                     refineries.post_refinary_config(reftemp, region)
                     y = refineries.get_refinary_configs(region)
                     configid = int(y.query('Name == @name')['ID'].iloc[0])
                     print(configid)
+                    print(region)
+                    print(country)
+
+
+create_configs()

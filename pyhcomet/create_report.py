@@ -5,8 +5,10 @@ import time
 from qe import qe
 
 
-def create_report(assays: list, percent: dict, region: str, productPrices: dict, Units: dict, name: str, slateorblend: int, type: str, codes: dict,seasonCode: str):
-    caseID = create_case.create_and_post_case(assays, percent, region, productPrices, Units, name, slateorblend, type, codes, seasonCode)
+def create_report(assays: list, percent: dict, region: str, productPrices: dict, Units: dict, name: str,
+                  slateorblend: int, type: str, codes: dict, seasonCode: str):
+    caseID = create_case.create_and_post_case(assays, percent, region, productPrices, Units, name, slateorblend, type,
+                                              codes, seasonCode)
     nbID = netback.run_netback_case(caseID)
     while netback.get_run_status(nbID)[0] != 'complete':
         print(netback.get_run_status(nbID))
@@ -52,17 +54,17 @@ type = 'ABNynas_Harburg'
 
 name = 'debug1'
 
-slateorblend = 1
+slateorblend = 0
 
-codes = {'LPG': 'LPG' , 'Naphtha': 'LNA' , 'Mogas Prem 95': 'MOGHQ' , 'Mogas Reg 92': 'MOGLQ' , 'Jet-A1': 'JET',
-                 'Diesel 10ppm S': 'DIEHQ' , 'Diesel 50ppm S': 'DIELQ', 'Heating Oil 0.1% S': 'HOLHQ',
-                 'Heating Oil 0.2% S': 'HOLLQ',
-                 'Fuel Oil 0.5% S': 'FOULS', 'Fuel Oil 1% S': 'FOLHQ', 'Fuel Oil 3.5% S': 'FOLLQ', 'Bitumen': 'ASP',
-                 'Coke (HQ)': 'COKHQ',
-                 'Coke (LQ)': 'COKLQ', 'Vac Gasoil': 'WVG', 'Atm Resid': 'ARS', 'Feedstock LPG': 'FSLPG',
-                 'Feedstock Lt Naphtha': 'FSLNA', 'Feedstock Alkylate': 'FSALK', 'Feedstock Hv Naphtha': 'FSHNA',
-                 'Feedstock VGO': 'FSVGO', 'Coker feed': 'FSCKF',
-                 'Natural Gas for Fuel': 'FSNGS'}
+codes = {'LPG': 'LPG', 'Naphtha': 'LNA', 'Mogas Prem 95': 'MOGHQ', 'Mogas Reg 92': 'MOGLQ', 'Jet-A1': 'JET',
+         'Diesel 10ppm S': 'DIEHQ', 'Diesel 50ppm S': 'DIELQ', 'Heating Oil 0.1% S': 'HOLHQ',
+         'Heating Oil 0.2% S': 'HOLLQ',
+         'Fuel Oil 0.5% S': 'FOULS', 'Fuel Oil 1% S': 'FOLHQ', 'Fuel Oil 3.5% S': 'FOLLQ', 'Bitumen': 'ASP',
+         'Coke (HQ)': 'COKHQ',
+         'Coke (LQ)': 'COKLQ', 'Vac Gasoil': 'WVG', 'Atm Resid': 'ARS', 'Feedstock LPG': 'FSLPG',
+         'Feedstock Lt Naphtha': 'FSLNA', 'Feedstock Alkylate': 'FSALK', 'Feedstock Hv Naphtha': 'FSHNA',
+         'Feedstock VGO': 'FSVGO', 'Coker feed': 'FSCKF',
+         'Natural Gas for Fuel': 'FSNGS'}
 
 seasonCode = 'INT'
 
