@@ -49,7 +49,7 @@ def post_refinary_config(config: dict, region_id: str):
     d = hcometcore.generic_api_call(
         set_url, payload=payload, requestType="POST", response_code=201, convert="true"
     )
-    return d
+    return d.reason
 
 
 def get_ref_config(region: str, name: str):
@@ -64,7 +64,7 @@ def put_refinary_config(config: dict, region_id: str, configID: int):
     d = hcometcore.generic_api_call(
         set_url, payload=payload, requestType="PUT", response_code=204, convert="true"
     )
-    return d
+    return d.reason
 
 
 def delete_config(region_id: str, config_id: int):
@@ -72,10 +72,33 @@ def delete_config(region_id: str, config_id: int):
     d = hcometcore.generic_api_call(
         set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
     )
-    return d
+    return d.reason
 
 
-def get_refinary_id_on_country(region_id: str, country: str, type: str):
+def get_refinary_id_on_country(region_id: str, country: str, name: str):
     x = get_refinary_list(region_id, country)
-    refid = int(x.query("Name == @type")["ID"].iloc[0])
+    refid = int(x.query("Name == @name")["ID"].iloc[0])
     return refid
+
+def ref_template(units: list, name: str):
+    """
+    Given a list of dicts (eg below) construct a template to send to Haverly
+    units = [
+        {'Code': 'ADU', 'Name': 'Atm. Dist. Unit', 'Capacity': 20000,},
+        {'Code': 'ALK', 'Name': 'Alkylation', 'Capacity': 15000,}
+    ]
+    :param units:
+    :param name:
+    :return:
+    """
+
+    template = {"Units": [], "ID": 1,
+                        "Name": name, "Selected": "true",
+                        "IsSelected": "true", "SelectedRefineriesCount": 1,
+                        "Name": name}
+    for unit in units:
+        t = {"Selected": "true", "Enabled": "true", "Rate": "null", "MinRate": "null"}
+        t = {**unit, **t}
+        template["Units"].append(t)
+    template = {"Refineries": [template], "Name": name}
+    return template
