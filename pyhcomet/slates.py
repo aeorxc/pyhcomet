@@ -41,7 +41,7 @@ def get_slate(slate_id: int):
     return df
 
 
-def get_slate_by_name(slate_name: int):
+def get_slate_by_name(slate_name: str):
     slates = get_slates()
     slates = slates[slates["Name"] == slate_name]
     if len(slates) > 0:
@@ -73,7 +73,7 @@ def put_slate(slate_id: int, slate: dict):
     d = hcometcore.generic_api_call(
         set_url, payload=payload, requestType="PUT", response_code=204, convert="true"
     )
-    return d
+    return d.reason
 
 
 def delete_slate(slate_id: int):

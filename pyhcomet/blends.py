@@ -21,9 +21,9 @@ def get_blend(blend_id: int):
 def post_blend(blend: dict):
     payload = json.dumps(blend)
     d = hcometcore.generic_api_call(
-        api_url, payload=payload, requestType="POST", response_code=201
+        api_url, payload=payload, requestType="POST", response_code=201, convert="true"
     )
-    return d
+    return d.reason
 
 
 def put_blend(blend_id: int, blend: dict):
@@ -32,7 +32,7 @@ def put_blend(blend_id: int, blend: dict):
     d = hcometcore.generic_api_call(
         set_url, payload=payload, requestType="PUT", response_code=204, convert="true"
     )
-    return d
+    return d.reason
 
 
 def delete_blend(blend_id: int):
@@ -40,4 +40,30 @@ def delete_blend(blend_id: int):
     d = hcometcore.generic_api_call(
         set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
     )
-    return d
+    return d.reason
+
+def blend_template(crudes: list, name: str):
+    """
+    Given a list of dicts (eg below) construct a template to send to Haverly
+    crudes = [
+        {'Percent': 50, 'Code': 'AGBMI472', 'Library': 'CHEVRON_EQUITY',  },
+        {'Percent: 50, ''Code': 'AGBMI480', 'Library': 'CHEVRON_EQUITY', }
+    ]
+    :param crudes:
+    :param name:
+    :return:
+    """
+
+    template = {"BlendComponentCrudes": [], "Name": name}
+    for crude in crudes:
+        t = {"Selected": "true"}
+        t = {**crude, **t}
+        template["BlendComponentCrudes"].append(t)
+
+    return template
+
+def get_blend_by_name(blend_name: str):
+    blends = get_blends()
+    blends = blends[blends["Name"] == blend_name]
+    if len(blends) > 0:
+        return blends
