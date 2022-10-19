@@ -119,7 +119,11 @@ def post_price_set(price_set: dict, region_id: str):
     set_url = f"{api_url}/{region_id}"
     payload = json.dumps(price_set)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="POST", expected_response_code=201, convert="true"
+        set_url,
+        payload=payload,
+        requestType="POST",
+        expected_response_code=201,
+        convert="true",
     )
     return d.reason
 
@@ -134,7 +138,11 @@ def put_price_set(region_id: str, price_set_id: int, price_set: dict):
     set_url = f"{api_url}/{region_id}/{price_set_id}"
     payload = json.dumps(price_set)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="PUT", expected_response_code=204, convert="true"
+        set_url,
+        payload=payload,
+        requestType="PUT",
+        expected_response_code=204,
+        convert="true",
     )
     return d
 
@@ -142,7 +150,11 @@ def put_price_set(region_id: str, price_set_id: int, price_set: dict):
 def delete_set(region_id: str, set_id: int):
     set_url = f"{api_url}/{region_id}/{set_id}"
     d = hcometcore.generic_api_call(
-        set_url, payload={}, requestType="DELETE", expected_response_code=204, convert="true"
+        set_url,
+        payload={},
+        requestType="DELETE",
+        expected_response_code=204,
+        convert="true",
     )
     return d.reason
 
@@ -168,10 +180,11 @@ def submit_price_set(prices: list, region_id: str, name: str):
     try:
         post_price_set(price_set=template, region_id=region_id)
     except Exception as ex:
-        if 'Basic price set name conflict' in ex.reason:
-            set_id = get_price_set_by_name(region_id=region_id, set_name=name)["ID"].iloc[0]
-            put_price_set(region_id=region_id, price_set=template,
-                              price_set_id=set_id)
+        if "Basic price set name conflict" in ex.reason:
+            set_id = get_price_set_by_name(region_id=region_id, set_name=name)[
+                "ID"
+            ].iloc[0]
+            put_price_set(region_id=region_id, price_set=template, price_set_id=set_id)
         else:
             raise
 

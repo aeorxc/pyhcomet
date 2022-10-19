@@ -21,7 +21,11 @@ def get_blend(blend_id: int):
 def post_blend(blend: dict):
     payload = json.dumps(blend)
     d = hcometcore.generic_api_call(
-        api_url, payload=payload, requestType="POST", expected_response_code=201, convert="true"
+        api_url,
+        payload=payload,
+        requestType="POST",
+        expected_response_code=201,
+        convert="true",
     )
     return d.reason
 
@@ -30,7 +34,11 @@ def put_blend(blend_id: int, blend: dict):
     set_url = f"{api_url}/{blend_id}"
     payload = json.dumps(blend)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="PUT", expected_response_code=204, convert="true"
+        set_url,
+        payload=payload,
+        requestType="PUT",
+        expected_response_code=204,
+        convert="true",
     )
     return d.reason
 
@@ -38,9 +46,14 @@ def put_blend(blend_id: int, blend: dict):
 def delete_blend(blend_id: int):
     set_url = f"{api_url}/{blend_id}"
     d = hcometcore.generic_api_call(
-        set_url, payload={}, requestType="DELETE", expected_response_code=204, convert="true"
+        set_url,
+        payload={},
+        requestType="DELETE",
+        expected_response_code=204,
+        convert="true",
     )
     return d.reason
+
 
 def blend_template(crudes: list, name: str):
     """
@@ -61,6 +74,7 @@ def blend_template(crudes: list, name: str):
         template["BlendComponentCrudes"].append(t)
 
     return template
+
 
 def get_blend_by_name(blend_name: str):
     blends = get_blends()

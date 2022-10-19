@@ -8,12 +8,12 @@ api_url = "https://hcomet.haverly.com/api/cases"
 
 
 def case_template(
-        SimplePriceSetID: int,
-        RegionID: str,
-        Name: str,
-        SlateID: int = None,
-        BlendID: int = None,
-        SimpleRefineryConfigID: int = 72193,  # NWE Generic
+    SimplePriceSetID: int,
+    RegionID: str,
+    Name: str,
+    SlateID: int = None,
+    BlendID: int = None,
+    SimpleRefineryConfigID: int = 72193,  # NWE Generic
 ):
     template = {
         "Selected": True,
@@ -58,7 +58,11 @@ def get_case_by_name(case_name: str):
 def post_case(case: dict):
     payload = json.dumps(case)
     d = hcometcore.generic_api_call(
-        api_url, payload=payload, requestType="POST", expected_response_code=201, convert="true"
+        api_url,
+        payload=payload,
+        requestType="POST",
+        expected_response_code=201,
+        convert="true",
     )
     return d.reason
 
@@ -67,7 +71,11 @@ def put_case(case_id: int, case: dict):
     set_url = f"{api_url}/{case_id}"
     payload = json.dumps(case)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="PUT", expected_response_code=204, convert="true"
+        set_url,
+        payload=payload,
+        requestType="PUT",
+        expected_response_code=204,
+        convert="true",
     )
     return d
 
@@ -75,7 +83,11 @@ def put_case(case_id: int, case: dict):
 def delete_case(case_id: int):
     set_url = f"{api_url}/{case_id}"
     d = hcometcore.generic_api_call(
-        set_url, payload={}, requestType="DELETE", expected_response_code=204, convert="true"
+        set_url,
+        payload={},
+        requestType="DELETE",
+        expected_response_code=204,
+        convert="true",
     )
     return d.reason
 
@@ -87,7 +99,7 @@ def submit_case(case: dict):
 
     case_by_name = get_case_by_name(case_name=case["Name"])
     if case_by_name is not None and len(case_by_name) > 0:
-        case_id = case_by_name['ID'].iloc[0]
+        case_id = case_by_name["ID"].iloc[0]
 
     if case_id:
         put_case(case=case, case_id=case_id)

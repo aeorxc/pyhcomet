@@ -56,7 +56,11 @@ def post_slate(slate: dict):
     """
     payload = json.dumps(slate)
     d = hcometcore.generic_api_call(
-        api_url, payload=payload, requestType="POST", expected_response_code=201, convert="true"
+        api_url,
+        payload=payload,
+        requestType="POST",
+        expected_response_code=201,
+        convert="true",
     )
     return d.reason
 
@@ -71,7 +75,11 @@ def put_slate(slate_id: int, slate: dict):
     set_url = f"{api_url}/{slate_id}"
     payload = json.dumps(slate)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="PUT", expected_response_code=204, convert="true"
+        set_url,
+        payload=payload,
+        requestType="PUT",
+        expected_response_code=204,
+        convert="true",
     )
     return d.reason
 
@@ -79,7 +87,11 @@ def put_slate(slate_id: int, slate: dict):
 def delete_slate(slate_id: int):
     set_url = f"{api_url}/{slate_id}"
     d = hcometcore.generic_api_call(
-        set_url, payload={}, requestType="DELETE", expected_response_code=204, convert="true"
+        set_url,
+        payload={},
+        requestType="DELETE",
+        expected_response_code=204,
+        convert="true",
     )
     return d.reason
 
@@ -90,7 +102,7 @@ def submit_slate(crudes: list, name: str):
     try:
         post_slate(slate=template)
     except HTTPError as ex:
-        if 'Slate name conflict' in ex.reason:
+        if "Slate name conflict" in ex.reason:
             set_id = get_slate_by_name(slate_name=name)["ID"].iloc[0]
             put_slate(slate=template, slate_id=set_id)
         else:

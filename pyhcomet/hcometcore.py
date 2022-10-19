@@ -17,7 +17,7 @@ refreshToken = ""
 headers = {"Content-Type": "application/json"}
 
 # Sends login request
-@ttl_cache(ttl=4*60)
+@ttl_cache(ttl=4 * 60)
 def Login(user, passwrd):
     url = "https://hcomet.haverly.com/api/login"
 
@@ -115,7 +115,11 @@ def get_header():
 
 
 def generic_api_call(
-    set_url: str, requestType="GET", payload={}, expected_response_code=200, convert="ignore"
+    set_url: str,
+    requestType="GET",
+    payload={},
+    expected_response_code=200,
+    convert="ignore",
 ):
     # todo rename param to expected_response_code
 
