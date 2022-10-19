@@ -17,6 +17,7 @@ refreshToken = ""
 headers = {"Content-Type": "application/json"}
 
 # Sends login request
+@ttl_cache(ttl=4*60)
 def Login(user, passwrd):
     url = "https://hcomet.haverly.com/api/login"
 
@@ -98,7 +99,6 @@ def Logout():
         return "Logout error: " + response.reason + "\n"
 
 
-@ttl_cache(ttl=5 * 60)
 def get_token():
     if bearerToken is None or bearerToken == "":
         Login(user=username, passwrd=password)
@@ -128,6 +128,8 @@ def generic_api_call(
             return d
         d = response
         return d
+    elif response.status_code == 401:
+        Refresh()
     else:
         try:
             msg = response.json()["Message"]
