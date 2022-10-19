@@ -46,7 +46,7 @@ def post_refinary_config(config: dict, region_id: str):
     set_url = f"{api_url}/config/{region_id}"
     payload = json.dumps(config)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="POST", response_code=201, convert="true"
+        set_url, payload=payload, requestType="POST", expected_response_code=201, convert="true"
     )
     return d.reason
 
@@ -61,7 +61,7 @@ def put_refinary_config(config: dict, region_id: str, configID: int):
     set_url = f"{api_url}/config/{region_id}/{configID}"
     payload = json.dumps(config)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="PUT", response_code=204, convert="true"
+        set_url, payload=payload, requestType="PUT", expected_response_code=204, convert="true"
     )
     return d.reason
 
@@ -69,7 +69,7 @@ def put_refinary_config(config: dict, region_id: str, configID: int):
 def delete_config(region_id: str, config_id: int):
     set_url = f"{api_url}/config/{region_id}/{config_id}"
     d = hcometcore.generic_api_call(
-        set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
+        set_url, payload={}, requestType="DELETE", expected_response_code=204, convert="true"
     )
     return d.reason
 

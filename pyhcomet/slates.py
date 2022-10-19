@@ -56,7 +56,7 @@ def post_slate(slate: dict):
     """
     payload = json.dumps(slate)
     d = hcometcore.generic_api_call(
-        api_url, payload=payload, requestType="POST", response_code=201, convert="true"
+        api_url, payload=payload, requestType="POST", expected_response_code=201, convert="true"
     )
     return d.reason
 
@@ -71,7 +71,7 @@ def put_slate(slate_id: int, slate: dict):
     set_url = f"{api_url}/{slate_id}"
     payload = json.dumps(slate)
     d = hcometcore.generic_api_call(
-        set_url, payload=payload, requestType="PUT", response_code=204, convert="true"
+        set_url, payload=payload, requestType="PUT", expected_response_code=204, convert="true"
     )
     return d.reason
 
@@ -79,7 +79,7 @@ def put_slate(slate_id: int, slate: dict):
 def delete_slate(slate_id: int):
     set_url = f"{api_url}/{slate_id}"
     d = hcometcore.generic_api_call(
-        set_url, payload={}, requestType="DELETE", response_code=204, convert="true"
+        set_url, payload={}, requestType="DELETE", expected_response_code=204, convert="true"
     )
     return d.reason
 

@@ -98,7 +98,7 @@ def Logout():
         return "Logout error: " + response.reason + "\n"
 
 
-@ttl_cache(ttl=10 * 60)
+@ttl_cache(ttl=5 * 60)
 def get_token():
     if bearerToken is None or bearerToken == "":
         Login(user=username, passwrd=password)
@@ -115,24 +115,28 @@ def get_header():
 
 
 def generic_api_call(
-    set_url: str, requestType="GET", payload={}, response_code=200, convert="ignore"
+    set_url: str, requestType="GET", payload={}, expected_response_code=200, convert="ignore"
 ):
     # todo rename param to expected_response_code
 
     response = requests.request(
         requestType, set_url, headers=get_header(), data=payload
     )
-    if response.status_code == response_code:
+    if response.status_code == expected_response_code:
         if convert == "ignore":
             d = response.json()
             return d
         d = response
         return d
     else:
+        try:
+            msg = response.json()["Message"]
+        except json.JSONDecodeError:
+            msg = response.text
         raise HTTPError(
             url=set_url,
             code=response.status_code,
-            msg=response.json()["Message"],
+            msg=msg,
             hdrs=None,
             fp=None,
         )
