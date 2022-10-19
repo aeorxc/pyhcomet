@@ -1,5 +1,5 @@
 import json
-
+from urllib.error import HTTPError
 import pandas as pd
 
 from pyhcomet import hcometcore
@@ -89,7 +89,7 @@ def submit_slate(crudes: list, name: str):
     set_id = None
     try:
         post_slate(slate=template)
-    except Exception as ex:
+    except HTTPError as ex:
         if 'Slate name conflict' in ex.reason:
             set_id = get_slate_by_name(slate_name=name)["ID"].iloc[0]
             put_slate(slate=template, slate_id=set_id)
