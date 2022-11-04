@@ -10,10 +10,22 @@ def get_crudes():
     return df
 
 
+def extract_cut_properties(cut):
+    p = pd.DataFrame(cut.Properties)
+    p['Name'] = cut.Name
+    return p
+
 def get_crude(name: str, assay_format: str = "english assay"):
     crude_url = f"{api_url}/comet/{name}/{assay_format}"
     d = hcometcore.generic_api_call(crude_url)
-    res = pd.DataFrame(d["summaryProperties"])  # TODO read rest of response
+    res = pd.DataFrame(pd.Series(d))
+    res.attrs['summaryProperties'] = pd.DataFrame(d["summaryProperties"])
+    res.attrs['WCProperties'] = pd.DataFrame(d["WCProperties"])
+    Cuts = pd.DataFrame(d["Cuts"])
+    CutsProperties = pd.concat(Cuts.apply(lambda x: extract_cut_properties(x), 1).values, axis=0)
+    res.attrs['Cuts'] = Cuts
+    res.attrs['CutsProperties'] = CutsProperties
+
     return res
 
 
