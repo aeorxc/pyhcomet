@@ -61,6 +61,31 @@ product_template_defaults = {
         "Description": "Fuel Oil 3.5% S",
         "LPCode": "FOL",
     },
+    "Unleaded-87": {
+        "Code": "MOGLQ",
+        "Description": "Unleaded-87",
+        "LPCode": "MGL",
+    },
+    "Jet 54": {
+        "Code": "KER",
+        "Description": "Jet 54",
+        "LPCode": "KER",
+    },
+    "ULS Diesel": {
+        "Code": "DIEHQ",
+        "Description": "ULS Diesel",
+        "LPCode": "DSH",
+    },
+    "No. 6 0.5%S": {
+        "Code": "FOULS",
+        "Description": "No. 6 0.5%S",
+        "LPCode": "FUS",
+    },
+    "No. 6 3.0%S": {
+        "Code": "FOLLQ",
+        "Description": "No. 6 3.0%S",
+        "LPCode": "FOL",
+    },
     "Bitumen": {"Code": "ASP", "Description": "Bitumen", "LPCode": "ASP"},
 }
 
@@ -133,6 +158,15 @@ def get_price_set_id(region: str, name: str):
     ID = int(listofsets.query("Name == @name")["ID"].iloc[0])
     return ID
 
+def get_price_set_template(region: str):
+    set_url = f"{api_url}/{region}/template"
+    d = hcometcore.generic_api_call(
+        set_url,
+        requestType="GET",
+        expected_response_code=200
+    )
+    return d
+
 
 def put_price_set(region_id: str, price_set_id: int, price_set: dict):
     set_url = f"{api_url}/{region_id}/{price_set_id}"
@@ -195,8 +229,9 @@ def submit_price_set(prices: list, region_id: str, name: str):
 
 
 if __name__ == "__main__":
-    prices = [
-        {"Description": "LPG", "Price": 650, "PriceUnit": "$/MT"},
-        {"Description": "Naphtha", "Price": 750, "PriceUnit": "$/MT"},
-    ]
-    submit_price_set(prices=prices, region_id="NWE", name="ga_test")
+    #prices = [
+    #   {"Description": "LPG", "Price": 650, "PriceUnit": "$/MT"},
+    #    {"Description": "Naphtha", "Price": 750, "PriceUnit": "$/MT"},
+    #]
+    #submit_price_set(prices=prices, region_id="NWE", name="ga_test")
+    print(get_price_set_template("UGC"))
