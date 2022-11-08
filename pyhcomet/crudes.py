@@ -15,8 +15,8 @@ def extract_cut_properties(cut):
     p['Name'] = cut.Name
     return p
 
-def get_crude(name: str, assay_format: str = "english assay"):
-    crude_url = f"{api_url}/comet/{name}/{assay_format}"
+def get_crude(libary_name: str, name: str, assay_format: str = "english assay"):
+    crude_url = f"{api_url}/{libary_name}/{name}/{assay_format}"
     d = hcometcore.generic_api_call(crude_url)
     res = pd.DataFrame(pd.Series(d))
     res.attrs['summaryProperties'] = pd.DataFrame(d["summaryProperties"])
