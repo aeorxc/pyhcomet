@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="pyhcomet",
-    version="0.0.6",
+    version="0.0.7",
     author="aeorxc",
     description="Wrapper around Haverly HComet",
     url="https://github.com/aeorxc/pyhcomet",
