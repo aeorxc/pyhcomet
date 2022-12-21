@@ -111,6 +111,13 @@ def submit_case(case: dict):
 
     return case_id
 
+def get_defult_spec(region):
+    spec_url = f"https://hcomet.haverly.com/api/basspec/def/{region}"
+    d = hcometcore.generic_api_call(spec_url)
+    df = pd.DataFrame.from_dict(d)
+    value = df.iloc[0]['ID']
+    return value
+
 
 if __name__ == "__main__":
     template = case_template(None)
